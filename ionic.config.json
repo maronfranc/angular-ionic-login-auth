@@ -1,0 +1,7 @@
+{
+  "name": "d0authLogin",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
