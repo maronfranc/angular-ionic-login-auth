@@ -11,8 +11,7 @@ const routes: Routes = [
     path: 'user',
     loadChildren: './user/user.module#UserPageModule',
     canLoad: [AuthGuard]
-  },
-  { path: 'auth', loadChildren: './auth/auth.module#AuthPageModule' },
+  }
 ];
 
 @NgModule({

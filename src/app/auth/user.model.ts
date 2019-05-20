@@ -1,5 +1,3 @@
-import { Credentials } from './auth.service';
-
 export class User {
   constructor(
     public credentials: Credentials,
@@ -16,3 +14,20 @@ export class User {
     return this._refreshToken;
   }
 }
+
+export interface AuthResponseData {
+  credentials: any;
+  lessonPlans: any;
+  refreshToken: string;
+  token: any;
+}
+
+export class Credentials {
+  constructor(
+      public id: number,
+      public email: string,
+      private name: string,
+      private slug?: string
+  ) {}
+}
+

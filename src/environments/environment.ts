@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiBaseUrl: 'https://dev-api.prodigioeducacao.com/',
+  authUrl: 'v1/token',
+  bearerUrl: 'v1/person/me',
+  storageAuthData: 'authData'
 };
 
 /*

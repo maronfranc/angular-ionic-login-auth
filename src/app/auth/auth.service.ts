@@ -1,27 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { Plugins } from '@capacitor/core';
 import { BehaviorSubject, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Plugins } from '@capacitor/core';
 
-import { User } from './user.model';
-
-export interface AuthResponseData {
-    credentials: any;
-    lessonPlans: any;
-    refreshToken: string;
-    token: any;
-  }
-
-export class Credentials {
-    constructor(
-        public id: number,
-        public email: string,
-        private name: string,
-        private slug?: string
-    ) {}
-}
-
+import { User, Credentials, AuthResponseData } from './user.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -68,11 +53,12 @@ export class AuthService implements OnDestroy {
     get user() {
         return this._user;
     }
+
     constructor(private http: HttpClient) {}
 
     // Pega valor no local storage repassa para _user e retorna booleano para auth.guard.ts
     autoLogin() {
-        return from(Plugins.Storage.get({ key: 'authData' })).pipe(
+        return from(Plugins.Storage.get({ key: environment.storageAuthData })).pipe(
             map(storedData => {
                 if (!storedData || !storedData.value) {
                     return null;
@@ -105,16 +91,13 @@ export class AuthService implements OnDestroy {
 
     login(email: string, password: string) {
         return this.http
-        .post(
-          `https://dev-api.prodigioeducacao.com/v1/token`,
-          { email, password }
-        )
-        .pipe(tap(this.setUserData.bind(this)));
+            .post( environment.apiBaseUrl + environment.authUrl, { email, password } )
+            .pipe(tap(this.setUserData.bind(this)));
     }
 
     logout() {
         this._user.next(null);
-        Plugins.Storage.remove({ key: 'authData' });
+        Plugins.Storage.remove({ key: environment.storageAuthData });
     }
 
     ngOnDestroy() {}
@@ -148,6 +131,6 @@ export class AuthService implements OnDestroy {
         refreshToken,
         token
     });
-    Plugins.Storage.set({ key: 'authData', value: data });
+    Plugins.Storage.set({ key: environment.storageAuthData, value: data });
     }
 }

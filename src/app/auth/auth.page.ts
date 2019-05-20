@@ -24,13 +24,14 @@ export class AuthPage implements OnInit {
 
   ngOnInit() {}
 
+  // Executa login do auth.service.ts e abre janela com erro
   authenticate(email: string, password: string) {
     this.isLoading = true;
     this.loadingCtrl
       .create({ keyboardClose: true, message: 'Entrando...' })
       .then(loadingEl => {
         loadingEl.present();
-        let authObs: Observable<any> = this.authService.login(email, password);
+        const authObs: Observable<any> = this.authService.login(email, password);
         authObs.subscribe(
           resData => {
             console.log(resData);
