@@ -7,7 +7,8 @@ export const environment = {
   apiBaseUrl: 'https://dev-api.prodigioeducacao.com/',
   authUrl: 'v1/token',
   bearerUrl: 'v1/person/me',
-  storageAuthData: 'authData'
+  storageAuth: 'authData',
+  storageUser: 'userData'
 };
 
 /*

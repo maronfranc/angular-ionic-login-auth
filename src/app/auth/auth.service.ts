@@ -5,7 +5,7 @@ import { Plugins } from '@capacitor/core';
 import { BehaviorSubject, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { User, Credentials, AuthResponseData } from './user.model';
+import { User, Credentials, AuthResponseData } from '../shared/user.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -13,6 +13,7 @@ import { environment } from '../../environments/environment';
 })
 export class AuthService implements OnDestroy {
     private _user = new BehaviorSubject<User>(null);
+    private temporarySolution = true;
 
     get userIsAuthenticated() {
         return this._user.asObservable().pipe(
@@ -58,7 +59,7 @@ export class AuthService implements OnDestroy {
 
     // Pega valor no local storage repassa para _user e retorna booleano para auth.guard.ts
     autoLogin() {
-        return from(Plugins.Storage.get({ key: environment.storageAuthData })).pipe(
+        return from(Plugins.Storage.get({ key: environment.storageAuth })).pipe(
             map(storedData => {
                 if (!storedData || !storedData.value) {
                     return null;
@@ -97,7 +98,8 @@ export class AuthService implements OnDestroy {
 
     logout() {
         this._user.next(null);
-        Plugins.Storage.remove({ key: environment.storageAuthData });
+        Plugins.Storage.remove({ key: environment.storageAuth });
+        Plugins.Storage.remove({ key: environment.storageUser });
     }
 
     ngOnDestroy() {}
@@ -131,6 +133,11 @@ export class AuthService implements OnDestroy {
         refreshToken,
         token
     });
-    Plugins.Storage.set({ key: environment.storageAuthData, value: data });
+    if (this.temporarySolution) {
+        Plugins.Storage.set({ key: environment.storageAuth, value: data });
+        this.temporarySolution = !this.temporarySolution;
+    } else {
+        this.temporarySolution = !this.temporarySolution;
+    }
     }
 }

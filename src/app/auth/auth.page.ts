@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+
 import { LoadingController, AlertController } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -36,6 +39,7 @@ export class AuthPage implements OnInit {
           resData => {
             console.log(resData);
             this.isLoading = false;
+            Plugins.Storage.set({ key: environment.storageUser , value: JSON.stringify(resData) });
             loadingEl.dismiss();
             this.router.navigateByUrl('/user');
           },
@@ -55,7 +59,6 @@ export class AuthPage implements OnInit {
     }
     const email = form.value.email;
     const password = form.value.password;
-
     this.authenticate(email, password);
     form.reset();
   }
