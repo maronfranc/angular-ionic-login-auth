@@ -28,19 +28,15 @@ export class Credentials {
 })
 export class AuthService implements OnDestroy {
     private _user = new BehaviorSubject<User>(null);
-    private activeLogoutTimer: any;
 
     get userIsAuthenticated() {
         return this._user.asObservable().pipe(
             map(user => {
-            const test = Plugins.Storage.get({ key: 'authData' }).then(value => console.log(JSON.parse(value.value)));
-            console.log(test);
-            console.log('11111');
-            if (user) {
-                return !!user.token;
-            } else {
-                return false;
-            }
+                if (user) {
+                    return !!user.token;
+                } else {
+                    return false;
+                }
             })
         );
     }
@@ -48,11 +44,11 @@ export class AuthService implements OnDestroy {
     get userId() {
         return this._user.asObservable().pipe(
             map(user => {
-            if (user) {
-                return user.credentials.id;
-            } else {
-                return null;
-            }
+                if (user) {
+                    return user.credentials.id;
+                } else {
+                    return null;
+                }
             })
         );
     }
@@ -60,17 +56,21 @@ export class AuthService implements OnDestroy {
     get token() {
         return this._user.asObservable().pipe(
             map(user => {
-            if (user) {
-                return user.token;
-            } else {
-                return null;
-            }
+                if (user) {
+                    return user.token;
+                } else {
+                    return null;
+                }
             })
         );
     }
 
+    get user() {
+        return this._user;
+    }
     constructor(private http: HttpClient) {}
 
+    // Pega valor no local storage repassa para _user e retorna booleano para auth.guard.ts
     autoLogin() {
         return from(Plugins.Storage.get({ key: 'authData' })).pipe(
             map(storedData => {
@@ -94,7 +94,6 @@ export class AuthService implements OnDestroy {
             tap(user => {
                 if (user) {
                     this._user.next(user);
-                    // autoLogout() ????
                 }
             }),
             map(user => {
@@ -123,7 +122,7 @@ export class AuthService implements OnDestroy {
 
     private setUserData(userData: AuthResponseData) {
         const user = new User(
-            userData.credentials ,
+            userData.credentials,
             userData.refreshToken,
             userData.token,
             userData.lessonPlans
