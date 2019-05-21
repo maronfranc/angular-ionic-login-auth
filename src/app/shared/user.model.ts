@@ -30,4 +30,3 @@ export class Credentials {
       private slug?: string
   ) {}
 }
-

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
@@ -14,7 +14,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './auth.page.html',
   styleUrls: ['./auth.page.scss']
 })
-export class AuthPage implements OnInit {
+export class AuthPage {
   isLoading = false;
   isLogin = true;
 
@@ -25,7 +25,6 @@ export class AuthPage implements OnInit {
     private alertCtrl: AlertController
   ) {}
 
-  ngOnInit() {}
 
   // Executa login do auth.service.ts e abre janela com erro
   authenticate(email: string, password: string) {
@@ -44,9 +43,14 @@ export class AuthPage implements OnInit {
             this.router.navigateByUrl('/user');
           },
           errRes => {
-            loadingEl.dismiss();
             console.log(errRes);
-            const message = errRes.error.errors[0].detail.message;
+            loadingEl.dismiss();
+            let message;
+            if (errRes.status === 502) {
+              message = 'Algum erro no servidor, Por favor volte mais Tarde';
+            } else {
+              message = errRes.error.errors[0].detail.message;
+            }
             this.showAlert(message);
           }
         );

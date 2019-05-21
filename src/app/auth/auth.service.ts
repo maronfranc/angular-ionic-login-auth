@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Plugins } from '@capacitor/core';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnDestroy {
+export class AuthService {
     private _user = new BehaviorSubject<User>(null);
     private storageToggle = true;
 
@@ -58,7 +58,6 @@ export class AuthService implements OnDestroy {
 
     constructor(private http: HttpClient, private router: Router) {}
 
-    // Pega valor no local storage repassa para _user e retorna booleano para auth.guard.ts
     autoLogin() {
         return from(Plugins.Storage.get({ key: environment.storageAuth })).pipe(
             map(storedData => {
@@ -103,9 +102,6 @@ export class AuthService implements OnDestroy {
         Plugins.Storage.remove({ key: environment.storageUser });
         this.router.navigateByUrl('/home');
     }
-
-    ngOnDestroy() {}
-
 
     private setUserData(userData: AuthResponseData) {
         const user = new User(

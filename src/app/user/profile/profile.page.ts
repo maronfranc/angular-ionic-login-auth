@@ -4,6 +4,8 @@ import { Plugins } from '@capacitor/core';
 
 import { environment } from 'src/environments/environment.prod';
 import { AuthService } from 'src/app/auth/auth.service';
+import { AlertController } from '@ionic/angular';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +15,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class ProfilePage implements OnInit {
   public user;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit() {
     this.getUserStorage();
@@ -25,6 +27,6 @@ export class ProfilePage implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.userService.confirmLogout();
   }
 }

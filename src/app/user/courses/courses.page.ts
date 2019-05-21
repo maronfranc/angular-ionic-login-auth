@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Credentials } from 'src/app/shared/user.model';
+
 import { Plugins } from '@capacitor/core';
-import { environment } from 'src/environments/environment';
-import { AuthService } from 'src/app/auth/auth.service';
+
+import { Credentials } from '../../shared/user.model';
+import { UserService } from '../user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-courses',
@@ -12,7 +14,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class CoursesPage implements OnInit {
   public lessonPlans: Credentials;
 
-  constructor(private authService: AuthService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.storedCredentials();
@@ -24,6 +26,6 @@ export class CoursesPage implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.userService.confirmLogout();
   }
 }
