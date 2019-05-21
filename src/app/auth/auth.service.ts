@@ -7,13 +7,14 @@ import { map, tap } from 'rxjs/operators';
 
 import { User, Credentials, AuthResponseData } from '../shared/user.model';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
     private _user = new BehaviorSubject<User>(null);
-    private temporarySolution = true;
+    private storageToggle = true;
 
     get userIsAuthenticated() {
         return this._user.asObservable().pipe(
@@ -55,7 +56,7 @@ export class AuthService implements OnDestroy {
         return this._user;
     }
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private router: Router) {}
 
     // Pega valor no local storage repassa para _user e retorna booleano para auth.guard.ts
     autoLogin() {
@@ -100,6 +101,7 @@ export class AuthService implements OnDestroy {
         this._user.next(null);
         Plugins.Storage.remove({ key: environment.storageAuth });
         Plugins.Storage.remove({ key: environment.storageUser });
+        this.router.navigateByUrl('/home');
     }
 
     ngOnDestroy() {}
@@ -133,11 +135,11 @@ export class AuthService implements OnDestroy {
         refreshToken,
         token
     });
-    if (this.temporarySolution) {
+    if (this.storageToggle) {
         Plugins.Storage.set({ key: environment.storageAuth, value: data });
-        this.temporarySolution = !this.temporarySolution;
+        this.storageToggle = !this.storageToggle;
     } else {
-        this.temporarySolution = !this.temporarySolution;
+        this.storageToggle = !this.storageToggle;
     }
     }
 }

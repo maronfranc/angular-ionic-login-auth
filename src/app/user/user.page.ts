@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
+
   constructor(private authService: AuthService) { }
 
   ngOnInit() {

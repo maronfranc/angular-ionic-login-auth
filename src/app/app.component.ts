@@ -13,7 +13,7 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private authSub: Subscription;
-  private previousAuthState = false;
+  public previousAuthState = false;
 
   constructor(
     private platform: Platform,

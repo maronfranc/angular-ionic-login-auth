@@ -46,7 +46,8 @@ export class AuthPage implements OnInit {
           errRes => {
             loadingEl.dismiss();
             console.log(errRes);
-            this.showAlert(errRes.error.errors[0].detail.message);
+            const message = errRes.error.errors[0].detail.message;
+            this.showAlert(message);
           }
         );
       });
