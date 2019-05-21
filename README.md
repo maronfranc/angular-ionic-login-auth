@@ -12,6 +12,7 @@ npm install -g ionic
 ```
 git clone https://github.com/maronfranc/angular-ionic-login-auth
 cd angular-ionic-login-auth
+npm install
 ionic serve
 ```
 
