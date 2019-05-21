@@ -16,5 +16,5 @@ ionic serve
 ```
 
 ### Rotas principais
-Rota abertas: /home /auth
-Rota protegida: /user
+- Rota abertas: /home /auth
+- Rota protegida: /user
