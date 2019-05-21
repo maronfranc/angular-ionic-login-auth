@@ -1,2 +1,2 @@
 # angular-ionic-login-auth
-Página de login.
+Login com bearer authentication, proteção de rotas  e persistência de dados no local storage do navegador.
