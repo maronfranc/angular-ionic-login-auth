@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Plugins } from '@capacitor/core';
-
 import { Credentials } from '../../shared/user-auth.model';
 import { UserService } from '../user.service';
-import { environment } from '../../../environments/environment';
-import { User } from '../../shared/user.model';
+import { StorageService } from '../../shared/storage.service';
 
 @Component({
   selector: 'app-courses',
@@ -14,23 +11,28 @@ import { User } from '../../shared/user.model';
 })
 export class CoursesPage implements OnInit {
   public lessonPlans: Credentials;
-  private usaaer: User;
+  public user;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private storageService: StorageService) { }
 
   ngOnInit() {
-    this.storedUser();
-    this.storedCredentials();
+    this.getStoredUser();
   }
 
-  async storedUser() {
-    const userData = await Plugins.Storage.get({key: environment.storageUser});
-    this.usaaer =  JSON.parse(userData.value);
+  async getStoredUser() {
+    try {
+      this.user = await this.storageService.getUser();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-  async storedCredentials() {
-    const userData = await Plugins.Storage.get({key: environment.storageAuth});
-    this.lessonPlans =  JSON.parse(userData.value)['lessonPlans'];
+  async getStoredLessonsPlans() {
+    try {
+      this.lessonPlans = await this.storageService.getCredentials();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   onLogout() {

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Plugins } from '@capacitor/core';
-
-import { environment } from 'src/environments/environment.prod';
+import { StorageService } from '../../shared/storage.service';
 import { UserService } from '../user.service';
-import { User } from 'src/app/shared/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -14,15 +11,18 @@ import { User } from 'src/app/shared/user.model';
 export class ProfilePage implements OnInit {
   public user;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private storageService: StorageService) { }
 
   ngOnInit() {
     this.storedUser();
   }
 
   async storedUser() {
-    const userData = await Plugins.Storage.get({key: environment.storageUser});
-    this.user =  JSON.parse(userData.value);
+    try {
+      this.user = await this.storageService.getUser();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   onLogout() {
