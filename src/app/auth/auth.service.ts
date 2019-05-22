@@ -5,7 +5,7 @@ import { Plugins } from '@capacitor/core';
 import { BehaviorSubject, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { User, Credentials, AuthResponseData } from '../shared/user.model';
+import { UserAuth, Credentials, AuthResponseData } from '../shared/user-auth.model';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-    private _user = new BehaviorSubject<User>(null);
+    private _user = new BehaviorSubject<UserAuth>(null);
     private storageToggle = true;
 
     get userIsAuthenticated() {
@@ -70,7 +70,7 @@ export class AuthService {
                     token: string,
                     lessonPlans: Array<any[]>;
                 };
-                const user = new User(
+                const user = new UserAuth(
                     parsedData.credentials,
                     parsedData.refreshToken,
                     parsedData.token,
@@ -104,7 +104,7 @@ export class AuthService {
     }
 
     private setUserData(userData: AuthResponseData) {
-        const user = new User(
+        const user = new UserAuth(
             userData.credentials,
             userData.refreshToken,
             userData.token,
@@ -120,7 +120,7 @@ export class AuthService {
     }
 
     private storeAuthData(
-        credentials: string,
+        credentials: Credentials,
         lessonPlans: Array<any[]>,
         refreshToken: string,
         token: string

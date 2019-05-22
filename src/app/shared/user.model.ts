@@ -1,32 +1,33 @@
 export class User {
-  constructor(
-    public credentials: Credentials,
-    private _refreshToken: string,
-    private _token: string,
-    public lessonPlans?: Array<any[]>,
-  ) {}
-
-  get token() {
-    return this._token;
-  }
-
-  get refreshToken() {
-    return this._refreshToken;
-  }
+    constructor(
+        address: Address,
+        created: string,
+        email: string,
+        gender: number,
+        id: number,
+        imageProfile: string,
+        name: string,
+        permission: any,
+        slug: string,
+        status: number,
+        teacher: Teacher,
+        updated: string
+    ) { }
 }
 
-export interface AuthResponseData {
-  credentials: any;
-  lessonPlans: any;
-  refreshToken: string;
-  token: any;
+export class Teacher {
+    constructor(
+        created: string,
+        id: number,
+        needsReview: number,
+        order: number,
+        updated: string
+    ) { }
 }
 
-export class Credentials {
-  constructor(
-      public id: number,
-      public email: string,
-      private name: string,
-      private slug?: string
-  ) {}
+export interface Address {
+    complement: string;
+    number: string;
+    street: string;
+    zipCode: string;
 }

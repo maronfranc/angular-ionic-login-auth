@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 
 import { environment } from 'src/environments/environment.prod';
-import { AuthService } from 'src/app/auth/auth.service';
-import { AlertController } from '@ionic/angular';
 import { UserService } from '../user.service';
+import { User } from 'src/app/shared/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -15,13 +14,13 @@ import { UserService } from '../user.service';
 export class ProfilePage implements OnInit {
   public user;
 
-  constructor(private authService: AuthService, private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.getUserStorage();
+    this.storedUser();
   }
 
-  async getUserStorage() {
+  async storedUser() {
     const userData = await Plugins.Storage.get({key: environment.storageUser});
     this.user =  JSON.parse(userData.value);
   }
