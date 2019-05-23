@@ -68,7 +68,7 @@ export class AuthService {
                     credentials: Credentials,
                     refreshToken: string,
                     token: string,
-                    lessonPlans: Array<any[]>;
+                    lessonPlans;
                 };
                 const user = new UserAuth(
                     parsedData.credentials,
@@ -92,7 +92,7 @@ export class AuthService {
 
     login(email: string, password: string) {
         return this.http
-            .post( environment.apiBaseUrl + environment.authUrl, { email, password } )
+            .post( environment.authUrl, { email, password } )
             .pipe(tap(this.setUserData.bind(this)));
     }
 
@@ -121,7 +121,7 @@ export class AuthService {
 
     private storeAuthData(
         credentials: Credentials,
-        lessonPlans: Array<any[]>,
+        lessonPlans,
         refreshToken: string,
         token: string
     ) {

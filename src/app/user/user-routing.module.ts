@@ -28,14 +28,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/user/cursos',
+        redirectTo: '/user/conta',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/user/cursos',
+    redirectTo: '/user/conta',
     pathMatch: 'full'
   }
 ];

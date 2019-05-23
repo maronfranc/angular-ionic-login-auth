@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'https://dev-api.prodigioeducacao.com/',
-  authUrl: 'v1/token',
-  bearerUrl: 'v1/person/me',
+  authUrl: 'https://dev-api.prodigioeducacao.com/v1/token',
+  bearerUrl: 'https://dev-api.prodigioeducacao.com/v1/person/me',
   storageAuth: 'authData',
   storageUser: 'userData'
 };

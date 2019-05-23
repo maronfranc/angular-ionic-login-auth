@@ -13,7 +13,7 @@ export class UserService {
 
   async confirmLogout() {
     const alert = await this.alertCtrl.create({
-      header: 'Confirmar saida',
+      header: 'Confirmar saída',
       buttons: [
         {
           text: 'OK',

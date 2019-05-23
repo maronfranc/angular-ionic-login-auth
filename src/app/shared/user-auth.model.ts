@@ -3,7 +3,7 @@ export class UserAuth {
     public credentials: Credentials,
     private _refreshToken: string,
     private _token: string,
-    public lessonPlans?: Array<any[]>,
+    public lessonPlans?,
   ) { }
 
   get token() {

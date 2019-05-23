@@ -27,7 +27,7 @@ export class TokenInterceptorService implements HttpInterceptor {
             setHeaders: {
               Authorization: `Bearer ${accessToken}`,
             },
-            url: environment.apiBaseUrl + environment.bearerUrl,
+            url: environment.bearerUrl,
             method: 'GET'
         });
         console.log(request);

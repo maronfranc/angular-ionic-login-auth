@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StorageService } from '../../shared/storage.service';
 import { UserService } from '../user.service';
+import { User } from 'src/app/shared/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -18,10 +19,12 @@ export class ProfilePage implements OnInit {
   }
 
   async storedUser() {
-    try {
-      this.user = await this.storageService.getUser();
-    } catch (e) {
-      console.log(e);
+    this.user = await this.storageService.getUser();
+    if (!this.user) {
+      this.user = {
+        name: 'Erro de local storage',
+        imageProfile: '/assets/img/user-placeholder.png'
+      };
     }
   }
 

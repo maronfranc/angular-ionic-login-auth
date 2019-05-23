@@ -17,22 +17,21 @@ export class CoursesPage implements OnInit {
 
   ngOnInit() {
     this.getStoredUser();
+    this.getStoredLessonsPlans();
   }
 
   async getStoredUser() {
-    try {
-      this.user = await this.storageService.getUser();
-    } catch (e) {
-      console.log(e);
+    this.user = await this.storageService.getUser();
+    if (!this.user) {
+      this.user = {
+        name: 'Erro de local storage',
+        imageProfile: '/assets/img/user-placeholder.png'
+      };
     }
   }
 
   async getStoredLessonsPlans() {
-    try {
-      this.lessonPlans = await this.storageService.getCredentials();
-    } catch (e) {
-      console.log(e);
-    }
+    this.lessonPlans = await this.storageService.getCredentials();
   }
 
   onLogout() {
